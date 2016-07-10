@@ -24,22 +24,9 @@ union d {
   };
 };
 
-class Get_TWEData {
-  public:
-    Get_TWEData();
-    void getdata(int*);/
-};
-
-Get_TWEData::GetTWEData()
-{
-  Serial1.begin(115200);
-}
-
 class TWEPacket {
   public:
-    union d twe;
-
-    TWEPacket();
+    TWEPacket(union d gdata);
     unsigned char getid();
     unsigned char getio();
     unsigned char getappid();
@@ -57,17 +44,89 @@ class TWEPacket {
     unsigned char getchsum();
 
   private:
-    void getdata();
+    union d twe;
 };
 
-TWEPacket::TWEPacket()
+TWEPacket::TWEPacket(union d gdata)
 {
-  Serial1.begin(115200);
-  twe.data[24] = {0};
+  twe = gdata;
 }
 
-void TWEPacket::getdata()
+unsigned char TWEPacket::getid()
 {
+  return twe.id;
+}
+unsigned char TWEPacket::getio()
+{
+  return twe.io;
+}
+unsigned char TWEPacket::getappid()
+{
+  return twe.id;
+}
+unsigned char TWEPacket::getprot()
+{
+  return twe.prot;
+}
+unsigned char TWEPacket::getlqi()
+{
+  return twe.lqi;
+}
+unsigned long TWEPacket::getno()
+{
+  return twe.lqi;
+}
+unsigned char TWEPacket::getdevid()
+{
+  return twe.devid;
+}
+unsigned short TWEPacket::getstmp()
+{
+  return twe.stmp;
+}
+unsigned char TWEPacket::getrelay()
+{
+  return twe.relay;
+}
+unsigned short TWEPacket::getvolt()
+{
+  return twe.volt;
+}
+unsigned char TWEPacket::getdi()
+{
+  return twe.di & 0x0F;
+}
+unsigned char TWEPacket::getdic()
+{
+  return twe.dic;
+}
+unsigned long TWEPacket::getad()
+{
+  return twe.ad;
+}
+unsigned char TWEPacket::getcorrad()
+{
+  return twe.corrad;
+}
+unsigned char TWEPacket::getchsum()
+{
+  return twe.checksum;
+}
+
+class Get_TWEData {
+  public:
+    Get_TWEData();
+    void getdata(TWEPacket *pclassp);
+};
+
+Get_TWEData::Get_TWEData()
+{
+  Serial1.begin(115200);
+}
+
+void Get_TWEData::getdata(TWEPacket *pclassp)
+{
+  union d twe;
   bool flg = true;
   char buff, *ptr;
   int cnt = 0;
@@ -92,88 +151,17 @@ void TWEPacket::getdata()
       }
     }
   } while (buff != ':');
-}
 
-unsigned char TWEPacket::getid()
-{
-  getdata();
-  return twe.id;
-}
-unsigned char TWEPacket::getio()
-{
-  getdata();
-  return twe.io;
-}
-unsigned char TWEPacket::getappid()
-{
-  getdata();
-  return twe.id;
-}
-unsigned char TWEPacket::getprot()
-{
-  getdata();
-  return twe.prot;
-}
-unsigned char TWEPacket::getlqi()
-{
-  getdata();
-  return twe.lqi;
-}
-unsigned long TWEPacket::getno()
-{
-  getdata();
-  return twe.lqi;
-}
-unsigned char TWEPacket::getdevid()
-{
-  getdata();
-  return twe.devid;
-}
-unsigned short TWEPacket::getstmp()
-{
-  getdata();
-  return twe.stmp;
-}
-unsigned char TWEPacket::getrelay()
-{
-  getdata();
-  return twe.relay;
-}
-unsigned short TWEPacket::getvolt()
-{
-  getdata();
-  return twe.volt;
-}
-unsigned char TWEPacket::getdi()
-{
-  getdata();
-  return twe.di & 0x0F;
-}
-unsigned char TWEPacket::getdic()
-{
-  getdata();
-  return twe.dic;
-}
-unsigned long TWEPacket::getad()
-{
-  getdata();
-  return twe.ad;
-}
-unsigned char TWEPacket::getcorrad()
-{
-  getdata();
-  return twe.corrad;
-}
-unsigned char TWEPacket::getchsum()
-{
-  getdata();
-  return twe.checksum;
+  pclassp = new TWEPacket(twe);
 }
 
 void loop() {
-  TWEPacket data;
+  Get_TWEData gtwe;
+  TWEPacket *pt;
   while (1)
   {
-    Serial.println(data.getad(), HEX);
+    gtwe.getdata(pt);
+    Serial.println(pt->getad(), HEX);
+    delete pt;
   }
 }
