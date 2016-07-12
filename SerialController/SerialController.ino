@@ -11,7 +11,7 @@ static int uart_putchar (char c, FILE *stream) {
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   fdev_setup_stream (&uartout, uart_putchar, NULL, _FDEV_SETUP_WRITE);
   stdout = &uartout;
  
@@ -35,23 +35,23 @@ void setup() {
 
 void loop() {
   uint8_t allbtn = 0;
+  uint16_t analog0;
   uint16_t analog1;
   uint16_t analog2;
   uint16_t analog3;
-  uint16_t analog4;
   
   while (1)
   {
-    analog1 = analogRead(A0);
-    analog2 = analogRead(A1);
-    analog3 = analogRead(A2);
-    analog4 = analogRead(A3);
+    analog0 = analogRead(A0);
+    analog1 = analogRead(A1);
+    analog2 = analogRead(A2);
+    analog3 = analogRead(A3);
 
     for (int i = 0; i <= 7; i++)
     {
       allbtn |= (digitalRead(i+2) << i);
     }
 
-    printf("%d#%d:%d:%d:%d\n", allbtn, analog1, analog2, analog3, analog4);
+    printf("%d%d%d%d%d\n", allbtn, analog0, analog1, analog2, analog3);
   }
 }
