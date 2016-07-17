@@ -20,9 +20,7 @@ void setup() {
 
 void loop() {
   int cnt = 0;
-  char buff = 0;
-  char *ptr;
-  uint8_t allbtn;
+  char *ptr, buff;
   bool flg = true;
 
   union d {
@@ -39,12 +37,17 @@ void loop() {
   do {
     if (Serial1.available())
     {
-      buff = char(Serial1.read());
+      buff = uint8_t(Serial1.read());
       if (buff != '\n')
+      {
+        twe.data[cnt] = buff;
+        cnt++;
+      }
+      /*if (buff != '\n')
       {
         if (flg)
         {
-          twe.data[cnt] = strtol(&buff, &ptr, 16) << 4;
+          twe.data[cnt] = strtol(&buff, &ptr, 16) << 3;
           flg = false;
         }
         else if (!flg)
@@ -53,9 +56,11 @@ void loop() {
           flg = true;
           cnt++;
         }
-      }
+      }*/
     }
   } while (buff != '\n');
+  Serial.println();
 
-  printf("btn : %d\n", twe.allsw);
+  Serial.print("btn : ");
+  Serial.println(cnt);
 }

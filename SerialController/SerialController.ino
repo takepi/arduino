@@ -30,23 +30,33 @@ void setup() {
 }
 
 void loop() {
-  uint8_t allbtn = 0;
+  uint8_t i;
+  uint8_t allsw = 0;
   uint16_t analog0;
   uint16_t analog1;
   uint16_t analog2;
   uint16_t analog3;
-  
+
   analog0 = analogRead(A0);
   analog1 = analogRead(A1);
   analog2 = analogRead(A2);
   analog3 = analogRead(A3);
 
-  for (int i = 0; i <= 7; i++)
+  for (i = 0; i <= 7; i++)
   {
-    allbtn |= digitalRead(i+2) << i;
+    allsw |= digitalRead(i+2) << i;
   }
 
-  //printf("%d%d%d%d%d\n", allbtn, analog0, analog1, analog2, analog3);
-  printf("%d\n", 1);
+  Serial.write(':');
+  Serial.write(allsw);
+  Serial.write(analog0 >> 8);
+  Serial.write(analog0 & 0xff);
+  Serial.write(analog1>> 8);
+  Serial.write(analog1 & 0xff);
+  Serial.write(analog2 >> 8);
+  Serial.write(analog2 & 0xff);
+  Serial.write(analog3 >> 8);
+  Serial.write(analog3 & 0xff);
+
   delay(10);
 }

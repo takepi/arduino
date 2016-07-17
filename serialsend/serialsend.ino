@@ -4,6 +4,6 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("a");
-  delay(100);
+  Serial.println(123);
+  delay(10);
 }
