@@ -1,19 +1,5 @@
-#include <stdio.h>
- 
-static FILE uartout;
-
-static int uart_putchar (char c, FILE *stream) {
-    if (Serial.write(c) > 0) {
-      return 0;
-    } else {
-      return -1;
-    }
-}
-
 void setup() {
   Serial.begin(115200);
-  fdev_setup_stream (&uartout, uart_putchar, NULL, _FDEV_SETUP_WRITE);
-  stdout = &uartout;
   
   pinMode(2, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
