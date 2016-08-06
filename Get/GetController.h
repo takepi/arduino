@@ -15,14 +15,8 @@ class GetCon
   private:
     void GetData();
     double GetAxis(int num);
-    union d{
-      uint8_t data[10];
-      struct{
-        uint8_t allsw;
-        uint16_t axis[4];
-        bool errorflg;
-      };
-    } twe;
+    uint8_t data[9];
+    bool eflg;
 };
 
 #endif

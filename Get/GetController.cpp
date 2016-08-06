@@ -22,14 +22,14 @@ void GetCon::GetData()
       }
       else
       {
-        twe.data[cnt] = buff;
+        data[cnt] = buff;
         if (cnt < 8)
         {
           cnt++;
         }
         else
         {
-          twe.errorflg = false;
+          eflg = false;
           break;
         }
       }
@@ -38,9 +38,9 @@ void GetCon::GetData()
     {
       errcnt++;
     }
-    if (errcnt > 100)
+    if (errcnt > 20000)
     {
-      twe.errorflg = true;
+      eflg = true;
       break;
     }
   }while(1);
@@ -49,21 +49,24 @@ void GetCon::GetData()
 uint8_t GetCon::GetAllSW()
 {
   GetData();
-  return twe.allsw;
+  return data[0];
 }
 
 bool GetCon::GetSW(int num)
 {
   GetData();
-  return (bool)(twe.allsw & (int)(pow(2.0, (double)num)));
+  return (bool)(data[0] & (int)(pow(2.0, (double)num)));
 }
 
 double GetCon::GetAxis(int num)
 {
   GetData();
-  double axis;
-  axis = (double)(twe.axis[num] - 511) / 511.0;
-  if (axis > -0.01 && axis < 0.01)
+  double axis = 0;
+  num *= 2;
+  
+  axis = (double)((data[num+1] << 8 | data[num+2]) - 511) / 511;
+  
+  if (axis > -0.012 && axis < 0.012)
   {
     axis = 0;
   }
@@ -106,6 +109,6 @@ double GetCon::Get1Y()
 bool GetCon::GetError()
 {
   GetData();
-  return twe.errorflg;
+  return eflg;
 }
 
