@@ -26,6 +26,6 @@ void loop() {
   }
   else
   {
-    Serial.println(con.Get0X());
+    Serial.println(con.GetAllSW());
   }
 }

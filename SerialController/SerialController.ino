@@ -34,7 +34,7 @@ void loop() {
   }
 
   Serial.write(':');
-  Serial.write(allsw);
+  Serial.write(~allsw);
   Serial.write(analog0 >> 8);
   Serial.write(analog0 & 0xff);
   Serial.write(analog1>> 8);
