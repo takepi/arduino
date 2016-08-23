@@ -66,7 +66,5 @@ void loop() {
   Serial.write(analog2 >> 8);
   Serial.write(analog2 & 0xff);
 
-  Serial.println(~allsw);
-
   delay(10);
 }

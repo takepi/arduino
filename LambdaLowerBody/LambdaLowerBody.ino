@@ -57,16 +57,14 @@ void loop() {
 
   Serial.write(':');
   Serial.write(~allsw);
-  Serial.write(analog1 >> 8);
-  Serial.write(analog1 & 0xff);
-  Serial.write(analog0>> 8);
-  Serial.write(analog0 & 0xff);
   Serial.write(analog3 >> 8);
   Serial.write(analog3 & 0xff);
-  Serial.write(analog2 >> 8);
+  Serial.write(analog2>> 8);
   Serial.write(analog2 & 0xff);
+  Serial.write(analog1 >> 8);
+  Serial.write(analog1 & 0xff);
+  Serial.write(analog0 >> 8);
+  Serial.write(analog0 & 0xff);
 
-  Serial.println(~allsw);
-
-  delay(10);
+  delay(50);
 }
