@@ -13,6 +13,8 @@ void setup() {
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
   pinMode(A3, INPUT);
+  pinMode(A4, OUTPUT);
+  digitalWrite(A4, HIGH);
 }
 
 double GetAxis(int data)
