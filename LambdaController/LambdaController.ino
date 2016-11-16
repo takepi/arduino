@@ -16,6 +16,8 @@ void setup() {
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
   pinMode(A3, INPUT);
+  pinMode(A4, OUTPUT);
+  digitalWrite(A4, HIGH);
 }
 
 void loop() {
@@ -24,7 +26,7 @@ void loop() {
   uint16_t analog1;
   uint16_t analog2;
   uint16_t analog3;
-
+  
   analog0 = analogRead(A0);
   analog1 = analogRead(A1);
   analog2 = analogRead(A2);
